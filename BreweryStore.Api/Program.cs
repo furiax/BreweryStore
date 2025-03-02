@@ -83,4 +83,16 @@ app.MapPut("/brews/{id}", (int id, Brew updatedBrew) =>
     return Results.NoContent();
 });
 
+app.MapDelete("/brews/{id}", (int id) =>
+{
+    Brew? brew = brews.Find(brew => brew.Id == id);
+
+    if (brew is not null)
+    {
+        brews.Remove(brew);
+    }
+
+    return Results.NoContent();
+});
+
 app.Run();
