@@ -63,4 +63,24 @@ app.MapPost("/brews", (Brew brew) =>
     return Results.CreatedAtRoute(GetBrewEndPointName, new { id = brew.Id }, brew);
 });
 
+app.MapPut("/brews/{id}", (int id, Brew updatedBrew) =>
+{
+    Brew? existingBrew = brews.Find(brew => brew.Id == id);
+
+    if (existingBrew is null)
+    {
+        return Results.NotFound();
+    }
+
+    existingBrew.Name = updatedBrew.Name;
+    existingBrew.Category = updatedBrew.Category;
+    existingBrew.Price = updatedBrew.Price;
+    existingBrew.BottleSize = updatedBrew.BottleSize;
+    existingBrew.AlchoholPercentage = updatedBrew.AlchoholPercentage;
+    existingBrew.BreweryName = updatedBrew.BreweryName;
+    existingBrew.ImageUri = updatedBrew.ImageUri;
+
+    return Results.NoContent();
+});
+
 app.Run();
