@@ -1,5 +1,7 @@
 using BreweryStore.Api.Entities;
 
+const string GetBrewEndPointName = "GetBrew";
+
 List<Brew> brews = new()
 {
     new Brew()
@@ -42,5 +44,23 @@ var app = builder.Build();
 
 app.MapGet("/brews", () => brews);
 
+app.MapGet("/brews/{id}", (int id) =>
+{
+    Brew? brew = brews.Find(brew => brew.Id == id);
+    if (brew is null)
+    {
+        return Results.NotFound();
+    }
+    return Results.Ok(brew);
+})
+.WithName(GetBrewEndPointName);
+
+app.MapPost("/brews", (Brew brew) =>
+{
+    brew.Id = brews.Max(brew => brew.Id) + 1;
+    brews.Add(brew);
+
+    return Results.CreatedAtRoute(GetBrewEndPointName, new { id = brew.Id }, brew);
+});
 
 app.Run();
