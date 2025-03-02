@@ -40,6 +40,7 @@ List<Brew> brews = new()
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/brews", () => brews);
+
 
 app.Run();

@@ -26,3 +26,4 @@ F:\Coding\BreweryStore\BreweryStore.Api\obj\Debug\net9.0\refint\BreweryStore.Api
 F:\Coding\BreweryStore\BreweryStore.Api\obj\Debug\net9.0\BreweryStore.Api.pdb
 F:\Coding\BreweryStore\BreweryStore.Api\obj\Debug\net9.0\BreweryStore.Api.genruntimeconfig.cache
 F:\Coding\BreweryStore\BreweryStore.Api\obj\Debug\net9.0\ref\BreweryStore.Api.dll
+F:\Coding\BreweryStore\BreweryStore.Api\obj\Debug\net9.0\BreweryStore.Api.sourcelink.json
