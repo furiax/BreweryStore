@@ -42,9 +42,11 @@ List<Brew> brews = new()
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-app.MapGet("/brews", () => brews);
+var group = app.MapGroup("/brews");
 
-app.MapGet("/brews/{id}", (int id) =>
+group.MapGet("/", () => brews);
+
+group.MapGet("/{id}", (int id) =>
 {
     Brew? brew = brews.Find(brew => brew.Id == id);
     if (brew is null)
@@ -55,7 +57,7 @@ app.MapGet("/brews/{id}", (int id) =>
 })
 .WithName(GetBrewEndPointName);
 
-app.MapPost("/brews", (Brew brew) =>
+group.MapPost("/", (Brew brew) =>
 {
     brew.Id = brews.Max(brew => brew.Id) + 1;
     brews.Add(brew);
@@ -63,7 +65,7 @@ app.MapPost("/brews", (Brew brew) =>
     return Results.CreatedAtRoute(GetBrewEndPointName, new { id = brew.Id }, brew);
 });
 
-app.MapPut("/brews/{id}", (int id, Brew updatedBrew) =>
+group.MapPut("/{id}", (int id, Brew updatedBrew) =>
 {
     Brew? existingBrew = brews.Find(brew => brew.Id == id);
 
@@ -83,7 +85,7 @@ app.MapPut("/brews/{id}", (int id, Brew updatedBrew) =>
     return Results.NoContent();
 });
 
-app.MapDelete("/brews/{id}", (int id) =>
+group.MapDelete("/{id}", (int id) =>
 {
     Brew? brew = brews.Find(brew => brew.Id == id);
 
