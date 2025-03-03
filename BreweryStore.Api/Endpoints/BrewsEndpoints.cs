@@ -9,27 +9,25 @@ public static class BrewsEndpoints
 
     public static RouteGroupBuilder MapBrewsEndpoints(this IEndpointRouteBuilder routes)
     {
-        InMemBrewsRepository repository = new();
-
         var group = routes.MapGroup("/brews")
                 .WithParameterValidation();
 
-        group.MapGet("/", () => repository.GetAll());
+        group.MapGet("/", (IBrewsRepository repository) => repository.GetAll());
 
-        group.MapGet("/{id}", (int id) =>
+        group.MapGet("/{id}", (IBrewsRepository repository, int id) =>
         {
             Brew? brew = repository.Get(id);
             return brew is not null ? Results.Ok(brew) : Results.NotFound();
         })
         .WithName(GetBrewEndPointName);
 
-        group.MapPost("/", (Brew brew) =>
+        group.MapPost("/", (IBrewsRepository repository, Brew brew) =>
         {
             repository.Create(brew);
             return Results.CreatedAtRoute(GetBrewEndPointName, new { id = brew.Id }, brew);
         });
 
-        group.MapPut("/{id}", (int id, Brew updatedBrew) =>
+        group.MapPut("/{id}", (IBrewsRepository repository, int id, Brew updatedBrew) =>
         {
             Brew? existingBrew = repository.Get(id);
 
@@ -50,7 +48,7 @@ public static class BrewsEndpoints
             return Results.NoContent();
         });
 
-        group.MapDelete("/{id}", (int id) =>
+        group.MapDelete("/{id}", (IBrewsRepository repository, int id) =>
         {
             Brew? brew = repository.Get(id);
 

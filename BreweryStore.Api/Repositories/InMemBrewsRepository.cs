@@ -2,7 +2,7 @@ using BreweryStore.Api.Entities;
 
 namespace BreweryStore.Api.Repositories;
 
-public class InMemBrewsRepository
+public class InMemBrewsRepository : IBrewsRepository
 {
     private readonly List<Brew> brews = new()
     {
