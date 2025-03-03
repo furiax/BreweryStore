@@ -42,7 +42,8 @@ List<Brew> brews = new()
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-var group = app.MapGroup("/brews");
+var group = app.MapGroup("/brews")
+                .WithParameterValidation();
 
 group.MapGet("/", () => brews);
 

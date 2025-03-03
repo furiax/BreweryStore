@@ -27,3 +27,9 @@ F:\Coding\BreweryStore\BreweryStore.Api\obj\Debug\net9.0\BreweryStore.Api.pdb
 F:\Coding\BreweryStore\BreweryStore.Api\obj\Debug\net9.0\BreweryStore.Api.genruntimeconfig.cache
 F:\Coding\BreweryStore\BreweryStore.Api\obj\Debug\net9.0\ref\BreweryStore.Api.dll
 F:\Coding\BreweryStore\BreweryStore.Api\obj\Debug\net9.0\BreweryStore.Api.sourcelink.json
+F:\Coding\BreweryStore\BreweryStore.Api\bin\Debug\net9.0\Microsoft.OpenApi.dll
+F:\Coding\BreweryStore\BreweryStore.Api\bin\Debug\net9.0\MinimalApis.Extensions.dll
+F:\Coding\BreweryStore\BreweryStore.Api\bin\Debug\net9.0\MiniValidation.dll
+F:\Coding\BreweryStore\BreweryStore.Api\obj\Debug\net9.0\BreweryStore.Api.csproj.AssemblyReference.cache
+F:\Coding\BreweryStore\BreweryStore.Api\obj\Debug\net9.0\BreweryStore.Api.MvcApplicationPartsAssemblyInfo.cs
+F:\Coding\BreweryStore\BreweryStore.Api\obj\Debug\net9.0\BreweryS.1036E1A4.Up2Date

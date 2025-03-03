@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "YhmT/DaSnqQ=",
+  "dgSpecHash": "bAC8wzMFMqI=",
   "success": true,
   "projectFilePath": "F:\\Coding\\BreweryStore\\BreweryStore.Api\\BreweryStore.Api.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\xt3rm\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
+    "C:\\Users\\xt3rm\\.nuget\\packages\\minimalapis.extensions\\0.11.0\\minimalapis.extensions.0.11.0.nupkg.sha512",
+    "C:\\Users\\xt3rm\\.nuget\\packages\\minivalidation\\0.8.0\\minivalidation.0.8.0.nupkg.sha512"
+  ],
   "logs": []
 }
