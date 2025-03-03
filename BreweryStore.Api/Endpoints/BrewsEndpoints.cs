@@ -1,3 +1,4 @@
+using BreweryStore.Api.Dtos;
 using BreweryStore.Api.Entities;
 using BreweryStore.Api.Repositories;
 
@@ -12,22 +13,34 @@ public static class BrewsEndpoints
         var group = routes.MapGroup("/brews")
                 .WithParameterValidation();
 
-        group.MapGet("/", (IBrewsRepository repository) => repository.GetAll());
+        group.MapGet("/", (IBrewsRepository repository) =>
+            repository.GetAll().Select(brew => brew.AsDto()));
 
         group.MapGet("/{id}", (IBrewsRepository repository, int id) =>
         {
             Brew? brew = repository.Get(id);
-            return brew is not null ? Results.Ok(brew) : Results.NotFound();
+            return brew is not null ? Results.Ok(brew.AsDto()) : Results.NotFound();
         })
         .WithName(GetBrewEndPointName);
 
-        group.MapPost("/", (IBrewsRepository repository, Brew brew) =>
+        group.MapPost("/", (IBrewsRepository repository, CreateBrewDto brewDto) =>
         {
+            Brew brew = new()
+            {
+                Name = brewDto.Name,
+                Category = brewDto.Category,
+                Price = brewDto.Price,
+                BottleSize = brewDto.BottleSize,
+                AlchoholPercentage = brewDto.AlchoholPercentage,
+                BreweryName = brewDto.BreweryName,
+                ImageUri = brewDto.ImageUri
+            };
+
             repository.Create(brew);
             return Results.CreatedAtRoute(GetBrewEndPointName, new { id = brew.Id }, brew);
         });
 
-        group.MapPut("/{id}", (IBrewsRepository repository, int id, Brew updatedBrew) =>
+        group.MapPut("/{id}", (IBrewsRepository repository, int id, UpdateBrewDto updatedBrewDto) =>
         {
             Brew? existingBrew = repository.Get(id);
 
@@ -36,13 +49,13 @@ public static class BrewsEndpoints
                 return Results.NotFound();
             }
 
-            existingBrew.Name = updatedBrew.Name;
-            existingBrew.Category = updatedBrew.Category;
-            existingBrew.Price = updatedBrew.Price;
-            existingBrew.BottleSize = updatedBrew.BottleSize;
-            existingBrew.AlchoholPercentage = updatedBrew.AlchoholPercentage;
-            existingBrew.BreweryName = updatedBrew.BreweryName;
-            existingBrew.ImageUri = updatedBrew.ImageUri;
+            existingBrew.Name = updatedBrewDto.Name;
+            existingBrew.Category = updatedBrewDto.Category;
+            existingBrew.Price = updatedBrewDto.Price;
+            existingBrew.BottleSize = updatedBrewDto.BottleSize;
+            existingBrew.AlchoholPercentage = updatedBrewDto.AlchoholPercentage;
+            existingBrew.BreweryName = updatedBrewDto.BreweryName;
+            existingBrew.ImageUri = updatedBrewDto.ImageUri;
 
             repository.Update(existingBrew);
             return Results.NoContent();
