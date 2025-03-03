@@ -1,4 +1,5 @@
 using BreweryStore.Api.Entities;
+using BreweryStore.Api.Repositories;
 
 namespace BreweryStore.Api.Endpoints;
 
@@ -6,72 +7,31 @@ public static class BrewsEndpoints
 {
     const string GetBrewEndPointName = "GetBrew";
 
-    static List<Brew> brews = new()
-    {
-        new Brew()
-        {
-            Id= 1,
-            Name = "Jupiler",
-            Category = "Pils",
-            Price = 0.80M,
-            BottleSize = 0.25M,
-            AlchoholPercentage = 5.2M,
-            BreweryName = "InBev",
-            ImageUri = "https://placehold.co/100",
-        },
-            new Brew()
-        {
-            Id= 2,
-            Name = "Duvel",
-            Category = "Sterk Blond Bier",
-            Price = 1.62M,
-            BottleSize = 0.33M,
-            AlchoholPercentage = 8.5M,
-            BreweryName = "Duvel-Moortgat",
-            ImageUri = "https://placehold.co/100",
-        },
-            new Brew()
-        {
-            Id= 3,
-            Name = "Lindemans Kriek",
-            Category = "Fruit",
-            Price = 1.34M,
-            BottleSize = 0.25M,
-            AlchoholPercentage = 3.5M,
-            BreweryName = "Lindemans",
-            ImageUri = "https://placehold.co/100",
-        }
-    };
-
     public static RouteGroupBuilder MapBrewsEndpoints(this IEndpointRouteBuilder routes)
     {
+        InMemBrewsRepository repository = new();
+
         var group = routes.MapGroup("/brews")
                 .WithParameterValidation();
 
-        group.MapGet("/", () => brews);
+        group.MapGet("/", () => repository.GetAll());
 
         group.MapGet("/{id}", (int id) =>
         {
-            Brew? brew = brews.Find(brew => brew.Id == id);
-            if (brew is null)
-            {
-                return Results.NotFound();
-            }
-            return Results.Ok(brew);
+            Brew? brew = repository.Get(id);
+            return brew is not null ? Results.Ok(brew) : Results.NotFound();
         })
         .WithName(GetBrewEndPointName);
 
         group.MapPost("/", (Brew brew) =>
         {
-            brew.Id = brews.Max(brew => brew.Id) + 1;
-            brews.Add(brew);
-
+            repository.Create(brew);
             return Results.CreatedAtRoute(GetBrewEndPointName, new { id = brew.Id }, brew);
         });
 
         group.MapPut("/{id}", (int id, Brew updatedBrew) =>
         {
-            Brew? existingBrew = brews.Find(brew => brew.Id == id);
+            Brew? existingBrew = repository.Get(id);
 
             if (existingBrew is null)
             {
@@ -86,16 +46,17 @@ public static class BrewsEndpoints
             existingBrew.BreweryName = updatedBrew.BreweryName;
             existingBrew.ImageUri = updatedBrew.ImageUri;
 
+            repository.Update(existingBrew);
             return Results.NoContent();
         });
 
         group.MapDelete("/{id}", (int id) =>
         {
-            Brew? brew = brews.Find(brew => brew.Id == id);
+            Brew? brew = repository.Get(id);
 
             if (brew is not null)
             {
-                brews.Remove(brew);
+                repository.Delete(id);
             }
 
             return Results.NoContent();
