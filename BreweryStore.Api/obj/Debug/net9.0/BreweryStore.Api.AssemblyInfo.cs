@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("9a149529-f3e4-4e66-8d3f-f51d05176fcb")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("BreweryStore.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+96c8309b37bfc3a24f5b1ec25817513f895f1841")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bfe6262f5825e2055a3a0c31abaa822ced3a745d")]
 [assembly: System.Reflection.AssemblyProductAttribute("BreweryStore.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BreweryStore.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
