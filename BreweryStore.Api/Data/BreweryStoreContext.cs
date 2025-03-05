@@ -1,3 +1,4 @@
+using System.Reflection;
 using BreweryStore.Api.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,4 +12,9 @@ public class BreweryStoreContext : DbContext
     }
 
     public DbSet<Brew> Brews => Set<Brew>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+    }
 }
