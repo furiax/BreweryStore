@@ -13,31 +13,31 @@ public class EntitiyFrameworkBrewsRepository : IBrewsRepository
         this.dbContext = dbContext;
     }
 
-    public IEnumerable<Brew> GetAll()
+    public async Task<IEnumerable<Brew>> GetAllAsync()
     {
-        return dbContext.Brews.AsNoTracking().ToList();
+        return await dbContext.Brews.AsNoTracking().ToListAsync();
     }
 
-    public Brew? Get(int id)
+    public async Task<Brew?> GetAsync(int id)
     {
-        return dbContext.Brews.Find(id);
+        return await dbContext.Brews.FindAsync(id);
     }
 
-    public void Create(Brew brew)
+    public async Task CreateAsync(Brew brew)
     {
         dbContext.Brews.Add(brew);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
     }
 
-    public void Update(Brew updatedBrew)
+    public async Task UpdateAsync(Brew updatedBrew)
     {
         dbContext.Update(updatedBrew);
-        dbContext.SaveChanges();
+        await dbContext.SaveChangesAsync();
     }
-    public void Delete(int id)
+    public async Task DeleteAsync(int id)
     {
-        dbContext.Brews.Where(brew => brew.Id == id)
-                       .ExecuteDelete();
+        await dbContext.Brews.Where(brew => brew.Id == id)
+                    .ExecuteDeleteAsync();
     }
 
 }

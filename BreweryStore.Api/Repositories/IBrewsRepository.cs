@@ -4,9 +4,9 @@ namespace BreweryStore.Api.Repositories;
 
 public interface IBrewsRepository
 {
-    void Create(Brew brew);
-    void Delete(int id);
-    Brew? Get(int id);
-    IEnumerable<Brew> GetAll();
-    void Update(Brew updatedBrew);
+    Task CreateAsync(Brew brew);
+    Task DeleteAsync(int id);
+    Task<Brew?> GetAsync(int id);
+    Task<IEnumerable<Brew>> GetAllAsync();
+    Task UpdateAsync(Brew updatedBrew);
 }

@@ -41,31 +41,37 @@ public class InMemBrewsRepository : IBrewsRepository
         }
     };
 
-    public IEnumerable<Brew> GetAll()
+    public async Task<IEnumerable<Brew>> GetAllAsync()
     {
-        return brews;
+        return await Task.FromResult(brews);
     }
 
-    public Brew? Get(int id)
+    public async Task<Brew?> GetAsync(int id)
     {
-        return brews.Find(brew => brew.Id == id);
+        return await Task.FromResult(brews.Find(brew => brew.Id == id));
     }
 
-    public void Create(Brew brew)
+    public async Task CreateAsync(Brew brew)
     {
         brew.Id = brews.Max(brew => brew.Id) + 1;
         brews.Add(brew);
+
+        await Task.CompletedTask;
     }
 
-    public void Update(Brew updatedBrew)
+    public async Task UpdateAsync(Brew updatedBrew)
     {
         var index = brews.FindIndex(brew => brew.Id == updatedBrew.Id);
         brews[index] = updatedBrew;
+
+        await Task.CompletedTask;
     }
 
-    public void Delete(int id)
+    public async Task DeleteAsync(int id)
     {
         var index = brews.FindIndex(brew => brew.Id == id);
         brews.RemoveAt(index);
+
+        await Task.CompletedTask;
     }
 }

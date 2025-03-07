@@ -4,13 +4,11 @@ using BreweryStore.Api.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddSingleton<IBrewsRepository, InMemBrewsRepository>();
-var connString = builder.Configuration.GetConnectionString("BreweryStoreContext");
-builder.Services.AddSqlServer<BreweryStoreContext>(connString);
+builder.Services.AddRepositories(builder.Configuration);
 
 var app = builder.Build();
 
-app.Services.InitializeDb();
+await app.Services.InitializeDbAsync();
 
 app.MapBrewsEndpoints();
 

@@ -13,17 +13,17 @@ public static class BrewsEndpoints
         var group = routes.MapGroup("/brews")
                 .WithParameterValidation();
 
-        group.MapGet("/", (IBrewsRepository repository) =>
-            repository.GetAll().Select(brew => brew.AsDto()));
+        group.MapGet("/", async (IBrewsRepository repository) =>
+            (await repository.GetAllAsync()).Select(brew => brew.AsDto()));
 
-        group.MapGet("/{id}", (IBrewsRepository repository, int id) =>
+        group.MapGet("/{id}", async (IBrewsRepository repository, int id) =>
         {
-            Brew? brew = repository.Get(id);
+            Brew? brew = await repository.GetAsync(id);
             return brew is not null ? Results.Ok(brew.AsDto()) : Results.NotFound();
         })
         .WithName(GetBrewEndPointName);
 
-        group.MapPost("/", (IBrewsRepository repository, CreateBrewDto brewDto) =>
+        group.MapPost("/", async (IBrewsRepository repository, CreateBrewDto brewDto) =>
         {
             Brew brew = new()
             {
@@ -36,13 +36,13 @@ public static class BrewsEndpoints
                 ImageUri = brewDto.ImageUri
             };
 
-            repository.Create(brew);
+            await repository.CreateAsync(brew);
             return Results.CreatedAtRoute(GetBrewEndPointName, new { id = brew.Id }, brew);
         });
 
-        group.MapPut("/{id}", (IBrewsRepository repository, int id, UpdateBrewDto updatedBrewDto) =>
+        group.MapPut("/{id}", async (IBrewsRepository repository, int id, UpdateBrewDto updatedBrewDto) =>
         {
-            Brew? existingBrew = repository.Get(id);
+            Brew? existingBrew = await repository.GetAsync(id);
 
             if (existingBrew is null)
             {
@@ -57,17 +57,17 @@ public static class BrewsEndpoints
             existingBrew.BreweryName = updatedBrewDto.BreweryName;
             existingBrew.ImageUri = updatedBrewDto.ImageUri;
 
-            repository.Update(existingBrew);
+            await repository.UpdateAsync(existingBrew);
             return Results.NoContent();
         });
 
-        group.MapDelete("/{id}", (IBrewsRepository repository, int id) =>
+        group.MapDelete("/{id}", async (IBrewsRepository repository, int id) =>
         {
-            Brew? brew = repository.Get(id);
+            Brew? brew = await repository.GetAsync(id);
 
             if (brew is not null)
             {
-                repository.Delete(id);
+                await repository.DeleteAsync(id);
             }
 
             return Results.NoContent();
