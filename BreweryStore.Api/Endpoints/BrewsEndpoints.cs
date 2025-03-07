@@ -21,7 +21,8 @@ public static class BrewsEndpoints
             Brew? brew = await repository.GetAsync(id);
             return brew is not null ? Results.Ok(brew.AsDto()) : Results.NotFound();
         })
-        .WithName(GetBrewEndPointName);
+        .WithName(GetBrewEndPointName)
+        .RequireAuthorization();
 
         group.MapPost("/", async (IBrewsRepository repository, CreateBrewDto brewDto) =>
         {
@@ -38,7 +39,8 @@ public static class BrewsEndpoints
 
             await repository.CreateAsync(brew);
             return Results.CreatedAtRoute(GetBrewEndPointName, new { id = brew.Id }, brew);
-        });
+        })
+        .RequireAuthorization();
 
         group.MapPut("/{id}", async (IBrewsRepository repository, int id, UpdateBrewDto updatedBrewDto) =>
         {
@@ -59,7 +61,8 @@ public static class BrewsEndpoints
 
             await repository.UpdateAsync(existingBrew);
             return Results.NoContent();
-        });
+        })
+        .RequireAuthorization();
 
         group.MapDelete("/{id}", async (IBrewsRepository repository, int id) =>
         {
@@ -71,7 +74,8 @@ public static class BrewsEndpoints
             }
 
             return Results.NoContent();
-        });
+        })
+        .RequireAuthorization();
 
         return group;
     }
