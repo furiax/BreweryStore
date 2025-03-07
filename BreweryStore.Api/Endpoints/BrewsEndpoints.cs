@@ -1,3 +1,4 @@
+using BreweryStore.Api.Authorization;
 using BreweryStore.Api.Dtos;
 using BreweryStore.Api.Entities;
 using BreweryStore.Api.Repositories;
@@ -22,7 +23,7 @@ public static class BrewsEndpoints
             return brew is not null ? Results.Ok(brew.AsDto()) : Results.NotFound();
         })
         .WithName(GetBrewEndPointName)
-        .RequireAuthorization();
+        .RequireAuthorization(Policies.ReadAccess);
 
         group.MapPost("/", async (IBrewsRepository repository, CreateBrewDto brewDto) =>
         {
@@ -40,7 +41,7 @@ public static class BrewsEndpoints
             await repository.CreateAsync(brew);
             return Results.CreatedAtRoute(GetBrewEndPointName, new { id = brew.Id }, brew);
         })
-        .RequireAuthorization();
+        .RequireAuthorization(Policies.WriteAccess);
 
         group.MapPut("/{id}", async (IBrewsRepository repository, int id, UpdateBrewDto updatedBrewDto) =>
         {
@@ -62,7 +63,7 @@ public static class BrewsEndpoints
             await repository.UpdateAsync(existingBrew);
             return Results.NoContent();
         })
-        .RequireAuthorization();
+        .RequireAuthorization(Policies.WriteAccess);
 
         group.MapDelete("/{id}", async (IBrewsRepository repository, int id) =>
         {
@@ -75,7 +76,7 @@ public static class BrewsEndpoints
 
             return Results.NoContent();
         })
-        .RequireAuthorization();
+        .RequireAuthorization(Policies.WriteAccess);
 
         return group;
     }
