@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BreweryStore.Api.Data.Migrations
 {
     [DbContext(typeof(BreweryStoreContext))]
-    [Migration("20250305212211_InitialCreate")]
+    [Migration("20250319091225_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

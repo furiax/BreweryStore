@@ -7,10 +7,12 @@ namespace BreweryStore.Api.Repositories;
 public class EntitiyFrameworkBrewsRepository : IBrewsRepository
 {
     private readonly BreweryStoreContext dbContext;
+    private readonly ILogger<EntitiyFrameworkBrewsRepository> logger;
 
-    public EntitiyFrameworkBrewsRepository(BreweryStoreContext dbContext)
+    public EntitiyFrameworkBrewsRepository(BreweryStoreContext dbContext, ILogger<EntitiyFrameworkBrewsRepository> logger)
     {
         this.dbContext = dbContext;
+        this.logger = logger;
     }
 
     public async Task<IEnumerable<Brew>> GetAllAsync()
@@ -27,6 +29,8 @@ public class EntitiyFrameworkBrewsRepository : IBrewsRepository
     {
         dbContext.Brews.Add(brew);
         await dbContext.SaveChangesAsync();
+
+        logger.LogInformation("Created brew {Name} with price {Price}.", brew.Name, brew.Price);
     }
 
     public async Task UpdateAsync(Brew updatedBrew)
