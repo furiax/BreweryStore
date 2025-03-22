@@ -12,6 +12,7 @@ var app = builder.Build();
 
 await app.Services.InitializeDbAsync();
 
+app.UseHttpLogging();
 app.MapBrewsEndpoints();
 
 app.Run();

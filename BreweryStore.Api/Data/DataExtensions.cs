@@ -20,6 +20,7 @@ public static class DataExtensions
         var connString = configuration.GetConnectionString("BreweryStoreContext");
         services.AddSqlServer<BreweryStoreContext>(connString)
                 .AddScoped<IBrewsRepository, EntitiyFrameworkBrewsRepository>();
+        services.AddHttpLogging();
         return services;
     }
 }
