@@ -2,6 +2,7 @@ using System.Diagnostics;
 using BreweryStore.Api.Authorization;
 using BreweryStore.Api.Data;
 using BreweryStore.Api.Endpoints;
+using BreweryStore.Api.ErrorHandling;
 using BreweryStore.Api.MiddleWare;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ builder.Services.AddBreweryStoreAuthorization();
 
 var app = builder.Build();
 
+app.UseExceptionHandler(exceptionHandlerApp => exceptionHandlerApp.ConfigureExceptionHandler());
 app.UseMiddleware<RequestTimingMiddleware>();
 
 await app.Services.InitializeDbAsync();

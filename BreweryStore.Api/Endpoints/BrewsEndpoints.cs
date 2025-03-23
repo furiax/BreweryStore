@@ -17,25 +17,7 @@ public static class BrewsEndpoints
 
         group.MapGet("/", async (IBrewsRepository repository, ILoggerFactory loggerFactory) =>
         {
-            try
-            {
-                return Results.Ok((await repository.GetAllAsync()).Select(brew => brew.AsDto()));
-            }
-            catch (Exception ex)
-            {
-                var logger = loggerFactory.CreateLogger("Brews Endpoints");
-                logger.LogError(ex, "Could not process a request on machine {Machine}. TraceId: {TraceId}", Environment.MachineName, Activity.Current?.TraceId);
-
-                return Results.Problem(
-                    title: "We made a mistake but we're working on it!",
-                    statusCode: StatusCodes.Status500InternalServerError,
-                    extensions: new Dictionary<string, object?>
-                    {
-                        {"traceId", Activity.Current?.TraceId.ToString()}
-                    }
-                );
-            }
-
+            return Results.Ok((await repository.GetAllAsync()).Select(brew => brew.AsDto()));
         });
 
         group.MapGet("/{id}", async (IBrewsRepository repository, int id) =>
