@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using BreweryStore.Api.Authorization;
 using BreweryStore.Api.Dtos;
 using BreweryStore.Api.Entities;
@@ -15,7 +14,7 @@ public static class BrewsEndpoints
     public static RouteGroupBuilder MapBrewsEndpoints(this IEndpointRouteBuilder routes)
     {
         var group = routes.NewVersionedApi()
-                          .MapGroup("/v{version:apiVersion}/brews")
+                          .MapGroup("/brews")
                           .HasApiVersion(1.0)
                           .HasApiVersion(2.0)
                           .WithParameterValidation();

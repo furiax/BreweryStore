@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using BreweryStore.Api.Authorization;
 using BreweryStore.Api.Data;
 using BreweryStore.Api.Endpoints;
@@ -10,7 +9,11 @@ builder.Services.AddRepositories(builder.Configuration);
 
 builder.Services.AddAuthentication().AddJwtBearer();
 builder.Services.AddBreweryStoreAuthorization();
-builder.Services.AddApiVersioning();
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new(1.0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+});
 
 var app = builder.Build();
 
