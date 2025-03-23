@@ -10,6 +10,7 @@ builder.Services.AddRepositories(builder.Configuration);
 
 builder.Services.AddAuthentication().AddJwtBearer();
 builder.Services.AddBreweryStoreAuthorization();
+builder.Services.AddApiVersioning();
 
 var app = builder.Build();
 

@@ -14,40 +14,44 @@ public static class BrewsEndpoints
 
     public static RouteGroupBuilder MapBrewsEndpoints(this IEndpointRouteBuilder routes)
     {
-        var V1Group = routes.MapGroup("/v1/brews")
-                .WithParameterValidation();
+        var group = routes.NewVersionedApi()
+                          .MapGroup("/v{version:apiVersion}/brews")
+                          .HasApiVersion(1.0)
+                          .HasApiVersion(2.0)
+                          .WithParameterValidation();
 
-        var V2Group = routes.MapGroup("/v2/brews")
-                .WithParameterValidation();
-
-        V1Group.MapGet("/", async (IBrewsRepository repository, ILoggerFactory loggerFactory) =>
+        //V1 GET ENDPOINT
+        group.MapGet("/", async (IBrewsRepository repository, ILoggerFactory loggerFactory) =>
         {
             return Results.Ok((await repository.GetAllAsync()).Select(brew => brew.AsDtoV1()));
-        });
-
-        V1Group.MapGet("/{id}", async (IBrewsRepository repository, int id) =>
+        }).MapToApiVersion(1.0);
+        //V1 GET ENDPOINT
+        group.MapGet("/{id}", async (IBrewsRepository repository, int id) =>
         {
             Brew? brew = await repository.GetAsync(id);
             return brew is not null ? Results.Ok(brew.AsDtoV1()) : Results.NotFound();
         })
         .WithName(GetBrewV1EndPointName)
-        .RequireAuthorization(Policies.ReadAccess);
+        .RequireAuthorization(Policies.ReadAccess)
+        .MapToApiVersion(1.0);
 
         //V2 GET ENDPOINTS
-        V2Group.MapGet("/", async (IBrewsRepository repository, ILoggerFactory loggerFactory) =>
+        group.MapGet("/", async (IBrewsRepository repository, ILoggerFactory loggerFactory) =>
         {
             return Results.Ok((await repository.GetAllAsync()).Select(brew => brew.AsDtoV2()));
-        });
+        })
+        .MapToApiVersion(2.0);
         //V2 GET ENDPOINTS
-        V2Group.MapGet("/{id}", async (IBrewsRepository repository, int id) =>
+        group.MapGet("/{id}", async (IBrewsRepository repository, int id) =>
         {
             Brew? brew = await repository.GetAsync(id);
             return brew is not null ? Results.Ok(brew.AsDtoV2()) : Results.NotFound();
         })
         .WithName(GetBrewV2EndPointName)
-        .RequireAuthorization(Policies.ReadAccess);
+        .RequireAuthorization(Policies.ReadAccess)
+        .MapToApiVersion(2.0);
 
-        V1Group.MapPost("/", async (IBrewsRepository repository, CreateBrewDto brewDto) =>
+        group.MapPost("/", async (IBrewsRepository repository, CreateBrewDto brewDto) =>
         {
             Brew brew = new()
             {
@@ -63,31 +67,33 @@ public static class BrewsEndpoints
             await repository.CreateAsync(brew);
             return Results.CreatedAtRoute(GetBrewV1EndPointName, new { id = brew.Id }, brew);
         })
-        .RequireAuthorization(Policies.WriteAccess);
+        .RequireAuthorization(Policies.WriteAccess)
+        .MapToApiVersion(1.0);
 
-        V1Group.MapPut("/{id}", async (IBrewsRepository repository, int id, UpdateBrewDto updatedBrewDto) =>
-        {
-            Brew? existingBrew = await repository.GetAsync(id);
+        group.MapPut("/{id}", async (IBrewsRepository repository, int id, UpdateBrewDto updatedBrewDto) =>
+         {
+             Brew? existingBrew = await repository.GetAsync(id);
 
-            if (existingBrew is null)
-            {
-                return Results.NotFound();
-            }
+             if (existingBrew is null)
+             {
+                 return Results.NotFound();
+             }
 
-            existingBrew.Name = updatedBrewDto.Name;
-            existingBrew.Category = updatedBrewDto.Category;
-            existingBrew.Price = updatedBrewDto.Price;
-            existingBrew.BottleSize = updatedBrewDto.BottleSize;
-            existingBrew.AlchoholPercentage = updatedBrewDto.AlchoholPercentage;
-            existingBrew.BreweryName = updatedBrewDto.BreweryName;
-            existingBrew.ImageUri = updatedBrewDto.ImageUri;
+             existingBrew.Name = updatedBrewDto.Name;
+             existingBrew.Category = updatedBrewDto.Category;
+             existingBrew.Price = updatedBrewDto.Price;
+             existingBrew.BottleSize = updatedBrewDto.BottleSize;
+             existingBrew.AlchoholPercentage = updatedBrewDto.AlchoholPercentage;
+             existingBrew.BreweryName = updatedBrewDto.BreweryName;
+             existingBrew.ImageUri = updatedBrewDto.ImageUri;
 
-            await repository.UpdateAsync(existingBrew);
-            return Results.NoContent();
-        })
-        .RequireAuthorization(Policies.WriteAccess);
+             await repository.UpdateAsync(existingBrew);
+             return Results.NoContent();
+         })
+         .RequireAuthorization(Policies.WriteAccess)
+         .MapToApiVersion(1.0);
 
-        V1Group.MapDelete("/{id}", async (IBrewsRepository repository, int id) =>
+        group.MapDelete("/{id}", async (IBrewsRepository repository, int id) =>
         {
             Brew? brew = await repository.GetAsync(id);
 
@@ -98,8 +104,9 @@ public static class BrewsEndpoints
 
             return Results.NoContent();
         })
-        .RequireAuthorization(Policies.WriteAccess);
+        .RequireAuthorization(Policies.WriteAccess)
+        .MapToApiVersion(1.0);
 
-        return V1Group;
+        return group;
     }
 }

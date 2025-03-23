@@ -166,3 +166,5 @@ F:\Coding\BreweryStore\BreweryStore.Api\bin\Debug\net9.0\runtimes\win\lib\net6.0
 F:\Coding\BreweryStore\BreweryStore.Api\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 F:\Coding\BreweryStore\BreweryStore.Api\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 F:\Coding\BreweryStore\BreweryStore.Api\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\Coding\BreweryStore\BreweryStore.Api\bin\Debug\net9.0\Asp.Versioning.Abstractions.dll
+F:\Coding\BreweryStore\BreweryStore.Api\bin\Debug\net9.0\Asp.Versioning.Http.dll
