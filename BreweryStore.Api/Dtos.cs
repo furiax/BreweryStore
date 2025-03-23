@@ -2,11 +2,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BreweryStore.Api.Dtos;
 
-public record BrewDto(
+public record BrewDtoV1(
     int Id,
     string Name,
     string Category,
     decimal Price,
+    string ImageUri
+);
+public record BrewDtoV2(
+    int Id,
+    string Name,
+    string Category,
+    decimal Price,
+    decimal RetailPrice,
     string ImageUri
 );
 

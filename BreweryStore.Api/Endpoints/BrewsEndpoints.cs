@@ -8,27 +8,46 @@ namespace BreweryStore.Api.Endpoints;
 
 public static class BrewsEndpoints
 {
-    const string GetBrewEndPointName = "GetBrew";
+    const string GetBrewV1EndPointName = "GetBrewV1";
+    const string GetBrewV2EndPointName = "GetBrewV2";
+
 
     public static RouteGroupBuilder MapBrewsEndpoints(this IEndpointRouteBuilder routes)
     {
-        var group = routes.MapGroup("/brews")
+        var V1Group = routes.MapGroup("/v1/brews")
                 .WithParameterValidation();
 
-        group.MapGet("/", async (IBrewsRepository repository, ILoggerFactory loggerFactory) =>
+        var V2Group = routes.MapGroup("/v2/brews")
+                .WithParameterValidation();
+
+        V1Group.MapGet("/", async (IBrewsRepository repository, ILoggerFactory loggerFactory) =>
         {
-            return Results.Ok((await repository.GetAllAsync()).Select(brew => brew.AsDto()));
+            return Results.Ok((await repository.GetAllAsync()).Select(brew => brew.AsDtoV1()));
         });
 
-        group.MapGet("/{id}", async (IBrewsRepository repository, int id) =>
+        V1Group.MapGet("/{id}", async (IBrewsRepository repository, int id) =>
         {
             Brew? brew = await repository.GetAsync(id);
-            return brew is not null ? Results.Ok(brew.AsDto()) : Results.NotFound();
+            return brew is not null ? Results.Ok(brew.AsDtoV1()) : Results.NotFound();
         })
-        .WithName(GetBrewEndPointName)
+        .WithName(GetBrewV1EndPointName)
         .RequireAuthorization(Policies.ReadAccess);
 
-        group.MapPost("/", async (IBrewsRepository repository, CreateBrewDto brewDto) =>
+        //V2 GET ENDPOINTS
+        V2Group.MapGet("/", async (IBrewsRepository repository, ILoggerFactory loggerFactory) =>
+        {
+            return Results.Ok((await repository.GetAllAsync()).Select(brew => brew.AsDtoV2()));
+        });
+        //V2 GET ENDPOINTS
+        V2Group.MapGet("/{id}", async (IBrewsRepository repository, int id) =>
+        {
+            Brew? brew = await repository.GetAsync(id);
+            return brew is not null ? Results.Ok(brew.AsDtoV2()) : Results.NotFound();
+        })
+        .WithName(GetBrewV2EndPointName)
+        .RequireAuthorization(Policies.ReadAccess);
+
+        V1Group.MapPost("/", async (IBrewsRepository repository, CreateBrewDto brewDto) =>
         {
             Brew brew = new()
             {
@@ -42,11 +61,11 @@ public static class BrewsEndpoints
             };
 
             await repository.CreateAsync(brew);
-            return Results.CreatedAtRoute(GetBrewEndPointName, new { id = brew.Id }, brew);
+            return Results.CreatedAtRoute(GetBrewV1EndPointName, new { id = brew.Id }, brew);
         })
         .RequireAuthorization(Policies.WriteAccess);
 
-        group.MapPut("/{id}", async (IBrewsRepository repository, int id, UpdateBrewDto updatedBrewDto) =>
+        V1Group.MapPut("/{id}", async (IBrewsRepository repository, int id, UpdateBrewDto updatedBrewDto) =>
         {
             Brew? existingBrew = await repository.GetAsync(id);
 
@@ -68,7 +87,7 @@ public static class BrewsEndpoints
         })
         .RequireAuthorization(Policies.WriteAccess);
 
-        group.MapDelete("/{id}", async (IBrewsRepository repository, int id) =>
+        V1Group.MapDelete("/{id}", async (IBrewsRepository repository, int id) =>
         {
             Brew? brew = await repository.GetAsync(id);
 
@@ -81,6 +100,6 @@ public static class BrewsEndpoints
         })
         .RequireAuthorization(Policies.WriteAccess);
 
-        return group;
+        return V1Group;
     }
 }
