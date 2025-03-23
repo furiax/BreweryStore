@@ -17,11 +17,13 @@ public class EntitiyFrameworkBrewsRepository : IBrewsRepository
 
     public async Task<IEnumerable<Brew>> GetAllAsync()
     {
+        throw new InvalidOperationException("The database connection is closed");
         return await dbContext.Brews.AsNoTracking().ToListAsync();
     }
 
     public async Task<Brew?> GetAsync(int id)
     {
+        throw new InvalidOperationException("The database connection is closed");
         return await dbContext.Brews.FindAsync(id);
     }
 
