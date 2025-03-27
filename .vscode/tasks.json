@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/BreweryStore.Api/BreweryStore.Api.csproj",
+                "${workspaceFolder}/GameStore.Api/GameStore.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/BreweryStore.Api/BreweryStore.Api.csproj",
+                "${workspaceFolder}/GameStore.Api/GameStore.Api.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary;ForceNoAlign"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/BreweryStore.Api/BreweryStore.Api.csproj"
+                "${workspaceFolder}/GameStore.Api/GameStore.Api.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
