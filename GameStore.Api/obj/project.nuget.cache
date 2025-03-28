@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wZyNbEK1Nm4=",
+  "dgSpecHash": "qnoIcQYAG1A=",
   "success": true,
-  "projectFilePath": "F:\\Coding\\GameStore\\GameStore.Api\\GamesStore.Api.csproj",
+  "projectFilePath": "F:\\Coding\\GameStore\\GameStore.Api\\GameStore.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\xt3rm\\.nuget\\packages\\asp.versioning.abstractions\\8.1.0\\asp.versioning.abstractions.8.1.0.nupkg.sha512",
     "C:\\Users\\xt3rm\\.nuget\\packages\\asp.versioning.http\\8.1.0\\asp.versioning.http.8.1.0.nupkg.sha512",

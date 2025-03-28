@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "op3IsSKZXZ2wIiK/VqXqdJ4SZb4xfTYGN5gX1ZADqpA=",
-  "Source": "GamesStore.Api",
-  "BasePath": "_content/GamesStore.Api",
+  "Hash": "Utbl/a8YfDjY8TkWMhKS5kHpiGzIQuKt5xhEtoFCXss=",
+  "Source": "GameStore.Api",
+  "BasePath": "_content/GameStore.Api",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],

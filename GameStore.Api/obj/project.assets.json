@@ -4570,9 +4570,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Coding\\GameStore\\GameStore.Api\\GamesStore.Api.csproj",
-      "projectName": "GamesStore.Api",
-      "projectPath": "F:\\Coding\\GameStore\\GameStore.Api\\GamesStore.Api.csproj",
+      "projectUniqueName": "F:\\Coding\\GameStore\\GameStore.Api\\GameStore.Api.csproj",
+      "projectName": "GameStore.Api",
+      "projectPath": "F:\\Coding\\GameStore\\GameStore.Api\\GameStore.Api.csproj",
       "packagesPath": "C:\\Users\\xt3rm\\.nuget\\packages\\",
       "outputPath": "F:\\Coding\\GameStore\\GameStore.Api\\obj\\",
       "projectStyle": "PackageReference",
