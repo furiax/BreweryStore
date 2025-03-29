@@ -3,8 +3,9 @@ using System.ComponentModel.DataAnnotations;
 namespace GameStore.Api.Dtos;
 
 public record GetGamesDtoV1(
-    int pageNumber = 1,
-    int pageSize = 5
+    int PageNumber = 1,
+    int PageSize = 5,
+    string? Filter = null
 );
 public record GameDtoV1(
     int Id,
@@ -16,8 +17,9 @@ public record GameDtoV1(
 );
 
 public record GetGamesDtoV2(
-    int pageNumber = 1,
-    int pageSize = 5
+    int PageNumber = 1,
+    int PageSize = 5,
+    string? Filter = null
 );
 public record GameDtoV2(
     int Id,

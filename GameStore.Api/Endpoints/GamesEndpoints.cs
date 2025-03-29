@@ -20,12 +20,20 @@ public static class GamesEndpoints
                           .WithParameterValidation();
 
         //V1 GET ENDPOINT
-        group.MapGet("/", async (IGamesRepository repository, ILoggerFactory loggerFactory, [AsParameters] GetGamesDtoV1 request, HttpContext http) =>
+        group.MapGet("/", async (
+            IGamesRepository repository,
+            ILoggerFactory loggerFactory,
+            [AsParameters] GetGamesDtoV1 request,
+            HttpContext http) =>
         {
-            var totalCount = await repository.CountAsync();
-            http.Response.AddPaginationHeader(totalCount, request.pageSize);
+            var totalCount = await repository.CountAsync(request.Filter);
+            http.Response.AddPaginationHeader(totalCount, request.PageSize);
 
-            return Results.Ok((await repository.GetAllAsync(request.pageNumber, request.pageSize)).Select(game => game.AsDtoV1()));
+            return Results.Ok((await repository.GetAllAsync(
+                request.PageNumber,
+                request.PageSize,
+                request.Filter))
+                .Select(game => game.AsDtoV1()));
         }).MapToApiVersion(1.0);
         //V1 GET ENDPOINT
         group.MapGet("/{id}", async (IGamesRepository repository, int id) =>
@@ -40,10 +48,10 @@ public static class GamesEndpoints
         //V2 GET ENDPOINTS
         group.MapGet("/", async (IGamesRepository repository, ILoggerFactory loggerFactory, [AsParameters] GetGamesDtoV2 request, HttpContext http) =>
         {
-            var totalCount = await repository.CountAsync();
-            http.Response.AddPaginationHeader(totalCount, request.pageSize);
+            var totalCount = await repository.CountAsync(request.Filter);
+            http.Response.AddPaginationHeader(totalCount, request.PageSize);
 
-            return Results.Ok((await repository.GetAllAsync(request.pageNumber, request.pageSize)).Select(game => game.AsDtoV2()));
+            return Results.Ok((await repository.GetAllAsync(request.PageNumber, request.PageSize, request.Filter)).Select(game => game.AsDtoV2()));
         })
         .MapToApiVersion(2.0);
         //V2 GET ENDPOINTS
