@@ -10,7 +10,7 @@ public class ScopeTransformation : IClaimsTransformation
     public Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
     {
         var scopeClaim = principal.FindFirst(scopeClaimName);
-        if(scopeClaim is null)
+        if (scopeClaim is null)
         {
             return Task.FromResult(principal);
         }
@@ -21,12 +21,13 @@ public class ScopeTransformation : IClaimsTransformation
         var identity = new ClaimsIdentity(originalIdentity);
 
         var originalScopeClaim = identity.Claims.FirstOrDefault(claim => claim.Type == scopeClaimName);
-        if(originalScopeClaim is not null)
+        if (originalScopeClaim is not null)
         {
             identity.RemoveClaim(originalScopeClaim);
         }
         identity.AddClaims(scopes.Select(scope => new Claim(scopeClaimName, scope)));
 
         return Task.FromResult(new ClaimsPrincipal(identity));
+
     }
 }

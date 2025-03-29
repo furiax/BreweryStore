@@ -20,9 +20,12 @@ public static class GamesEndpoints
                           .WithParameterValidation();
 
         //V1 GET ENDPOINT
-        group.MapGet("/", async (IGamesRepository repository, ILoggerFactory loggerFactory) =>
+        group.MapGet("/", async (IGamesRepository repository, ILoggerFactory loggerFactory, [AsParameters] GetGamesDtoV1 request, HttpContext http) =>
         {
-            return Results.Ok((await repository.GetAllAsync()).Select(game => game.AsDtoV1()));
+            var totalCount = await repository.CountAsync();
+            http.Response.AddPaginationHeader(totalCount, request.pageSize);
+
+            return Results.Ok((await repository.GetAllAsync(request.pageNumber, request.pageSize)).Select(game => game.AsDtoV1()));
         }).MapToApiVersion(1.0);
         //V1 GET ENDPOINT
         group.MapGet("/{id}", async (IGamesRepository repository, int id) =>
@@ -35,9 +38,12 @@ public static class GamesEndpoints
         .MapToApiVersion(1.0);
 
         //V2 GET ENDPOINTS
-        group.MapGet("/", async (IGamesRepository repository, ILoggerFactory loggerFactory) =>
+        group.MapGet("/", async (IGamesRepository repository, ILoggerFactory loggerFactory, [AsParameters] GetGamesDtoV2 request, HttpContext http) =>
         {
-            return Results.Ok((await repository.GetAllAsync()).Select(game => game.AsDtoV2()));
+            var totalCount = await repository.CountAsync();
+            http.Response.AddPaginationHeader(totalCount, request.pageSize);
+
+            return Results.Ok((await repository.GetAllAsync(request.pageNumber, request.pageSize)).Select(game => game.AsDtoV2()));
         })
         .MapToApiVersion(2.0);
         //V2 GET ENDPOINTS

@@ -12,7 +12,7 @@ public static class AuthorizationExtensions
         {
             options.AddPolicy(Policies.ReadAccess, builder =>
                 builder.RequireClaim("scope", "games:read")
-                        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme, "Auth0"));
+                .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme, "Auth0"));
             options.AddPolicy(Policies.WriteAccess, builder =>
                 builder.RequireClaim("scope", "games:write")
                     .RequireRole("Admin")
