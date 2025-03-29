@@ -168,3 +168,8 @@ F:\Coding\GameStore\GameStore.Api\obj\Debug\net9.0\refint\GameStore.Api.dll
 F:\Coding\GameStore\GameStore.Api\obj\Debug\net9.0\GameStore.Api.pdb
 F:\Coding\GameStore\GameStore.Api\obj\Debug\net9.0\GameStore.Api.genruntimeconfig.cache
 F:\Coding\GameStore\GameStore.Api\obj\Debug\net9.0\ref\GameStore.Api.dll
+F:\Coding\GameStore\GameStore.Api\bin\Debug\net9.0\Asp.Versioning.Mvc.dll
+F:\Coding\GameStore\GameStore.Api\bin\Debug\net9.0\Asp.Versioning.Mvc.ApiExplorer.dll
+F:\Coding\GameStore\GameStore.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+F:\Coding\GameStore\GameStore.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+F:\Coding\GameStore\GameStore.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
